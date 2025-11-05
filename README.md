@@ -12,7 +12,7 @@ GPC DROC:  <br/>
 
 Recognizing the data continuum gaps in CISTEM [e.g., lack of longitudinal information on more granular clinical observations and outcome measures, such as serum creatinine levels (for computation of estimated glomerular filtration rate, eGFR), tacrolimus drug levels, measures of viremia and viuria, biopsy reports (for defining acute rejection (AR) and other forms of graft injury), malignancy diagnoses, rehospitalization events], we will establish a novel, robust and curated database (CISTEM2 database) integrating transplant registry data with multi-site electronic medical records (EMRs), administrative claims, and social determinants of health data for renal transplant patients leveraging the PCORnet infrastructure. Specific aims and scope of work can be found below: 
 - [Specific Aims](/ref/SPECIFIC%20AIMS_CISTEM2_20230401.pdf)
-- [Site SOW and Budget](/ref/CISTEM2_NIH_R01_SOW-w-Budget.pdf)
+- [Site SOW](https://github.com/gpcnetwork/r01_cistem2_rutgers/blob/main/ref/CISTEM2_NIH_R01_SOW.pdf)
 - [Introduction Deck](/ref/CISTEM2_intro_deck.pdf)
 
 PCORnet EHR Data use agreement template and data dictionary can be found below: 
