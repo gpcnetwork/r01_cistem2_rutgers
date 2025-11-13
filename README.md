@@ -2,7 +2,7 @@
 
 Funding agency: NIH/NIDDK <br/>
 Funding period: 4/1/2024 - 3/30/2029 <br/>
-PI: Vikas Dharnidharka, MD (Rutgers); David Axelrod, MD (Case Western) <br/>
+PI: Vikas Dharnidharka, MD (Rutgers); David Axelrod, MD (University Hospital Cleveland) <br/>
 Co-PI/Co-I: Xing Song (MU) <br/>
 Project Number: [1R01DK139339](https://reporter.nih.gov/search/dL0HHLs6gUu6A9ABsvEWxQ/project-details/10859534#description) <br/>
 GPC ROA: [ROA Request](/doc/GPCResearchOpportunityAssessme_2022-12-20_2125.pdf) <br/>
