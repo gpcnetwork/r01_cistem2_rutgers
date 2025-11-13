@@ -1,0 +1,10 @@
+# virtual environments
+*venv/
+
+# byte-compiled / cached files
+*__pycache__/
+
+# hidden files
+.env*
+.config*
+_*

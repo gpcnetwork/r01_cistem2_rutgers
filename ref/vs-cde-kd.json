@@ -1,0 +1,296 @@
+[
+    {
+        "id": "KD00001",
+        "name": "KTx",
+        "description": "kidney transplant surgical procedure",
+        "purpose": "precedures",
+        "topic": "treatment/intervention",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "cpt",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": [
+                                "50360",
+                                "50365"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "drg",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": [
+                                "652"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "icd10pcs",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": [
+                                "0TY00Z0",
+                                "0TY00Z1",
+                                "0TY00Z2",
+                                "0TY10Z0",
+                                "0TY10Z1",
+                                "0TY10Z2"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "icd9proc",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "55.6"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "KD00002",
+        "name": "MI",
+        "description": "myocardial infarction",
+        "topic": "outcomes and endpoints",
+        "purpose": "cardiovascular",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "icd9cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "410.0",
+                                "410.1",
+                                "410.2",
+                                "410.3",
+                                "410.4",
+                                "410.9"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "icd10cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "I21.0",
+                                "I21.1",
+                                "I21.2",
+                                "I21.3",
+                                "I21.4",
+                                "I21.9"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "KD00003",
+        "name": "AR",
+        "description": "acute renal rejection",
+        "topic": "outcomes and endpoints",
+        "purpose": "adverse event",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "icd9cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "996.81"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "icd10cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "T86.11"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "rxnorm",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": []
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "KD00004",
+        "name": "RenalBiopsy",
+        "description": "renal biopsy",
+        "topic": "assessment and examinations",
+        "purpose": "non-imaging diagnostics",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "cpt",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": [
+                                "50200"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "KD00005",
+        "name": "AntiRejectionRx",
+        "description": "anti-rejection medications",
+        "topic": "treatment/intervention",
+        "purpose": "drugs",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "rxnorm",
+                    "filter": [
+                        {
+                            "property": "codeList",
+                            "op": "exists",
+                            "value": [
+                                "6902",
+                                "314099",
+                                "1743704",
+                                "1743729",
+                                "107044",
+                                "107050",
+                                "121191",
+                                "2472332"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "KD00006",
+        "name": "T2DM",
+        "description": "type 2 diabetes mellitus",
+        "topic": "outcomes and endpoints",
+        "purpose": "metabolic",
+        "relatedArtifact": {
+            "class": "core",
+            "valueType": "boolean",
+            "valueRange": {
+                "0": "absence",
+                "1": "presence"
+            }
+        },
+        "compose": {
+            "include": [
+                {
+                    "system": "icd9cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "250"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "system": "icd10cm",
+                    "filter": [
+                        {
+                            "property": "codePrecision",
+                            "op": "descendent-of",
+                            "value": [
+                                "E09",
+                                "E10",
+                                "E11",
+                                "E13"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]
