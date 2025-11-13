@@ -125,7 +125,7 @@ tbl1<-CreateTableOne(
 )
 kable(
   print(tbl1, printToggle = FALSE), 
-  caption = "Table 3: Overall Cohort Characteristics (MI)"
+  caption = "Table 3: Sub-Cohort Characteristics (MI)"
 )
 
 tbl1<-CreateTableOne(
@@ -135,6 +135,6 @@ tbl1<-CreateTableOne(
 )
 kable(
   print(tbl1, printToggle = FALSE), 
-  caption = "Table 4: Overall Cohort Characteristics (AR)"
+  caption = "Table 4: Sub-Cohort Characteristics (AR)"
 )
 ```
