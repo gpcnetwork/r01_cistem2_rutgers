@@ -7,3 +7,6 @@
 # hidden files
 .env*
 .config*
+
+# any data files
+*data/
