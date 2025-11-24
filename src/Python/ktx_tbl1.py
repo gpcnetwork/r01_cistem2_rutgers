@@ -7,6 +7,7 @@ from snowflake.snowpark.functions import (
     col, coalesce, lit, lag, to_date, when, datediff, sum as s_sum, max as s_max, min as s_min, row_number,
     abs as s_abs, iff, least, call_function
 )
+from snowflake.snowpark.window import Window
 
 # data pull - connect to snowflake
 path_to_config = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + '\.config.json'
@@ -32,7 +33,8 @@ with Session.builder.configs(connect_params).create() as session:
     log_tbl_dxpx = session.table("KTX_DXPX_LONG")
     log_tbl_rx = session.table("KTX_RX_LONG")
 
-    ##--- identify ktx index date
+    ##--- identify ktx index date (retain site)
+    w = Window.partitionBy(col("PATID")).orderBy(col("CD_DATE"))
     ktx_idx = (
         log_tbl_dxpx.filter(col('PHE_TYPE').isin(['KTx']))
             .filter(col('ENC_TYPE').isin(['EI','IP']))
@@ -40,8 +42,10 @@ with Session.builder.configs(connect_params).create() as session:
                 (col('CD_DATE') >= to_date(lit('2014-01-01'))) & 
                 (col('CD_DATE') <= to_date(lit('2023-12-31')))
             )
-            .group_by(col('PATID'))
-            .agg(s_min(col('CD_DATE')).alias('KTX_DATE1'))
+            .with_column("rn", row_number().over(w))
+            .filter(col("rn") == 1)
+            .with_column_renamed("CD_DATE", "KTX_DATE1")
+            .select("PATID", "KTX_DATE1", "SITE")
     )
     # ktx_idx.write.mode("overwrite").save_as_table("KTX_IDX")
 
@@ -139,6 +143,7 @@ with Session.builder.configs(connect_params).create() as session:
         .select(
             k["PATID"].alias("PATID"),
             k["KTX_DATE1"].alias("KTX_DATE1"),
+            k["SITE"].alias("KTX_SITE"),
             n["DM_DATE1"].alias("DM_DATE1"),
             n["DAYS_TO_NODAT"].alias("DAYS_TO_NODAT")
         )
@@ -149,6 +154,7 @@ with Session.builder.configs(connect_params).create() as session:
             .select(
                 jn1["PATID"],
                 jn1["KTX_DATE1"],
+                jn1["KTX_SITE"],
                 jn1["DM_DATE1"],
                 jn1["DAYS_TO_NODAT"],
                 jn1["NODAT_IND"],
@@ -162,6 +168,7 @@ with Session.builder.configs(connect_params).create() as session:
             .select(
                 jn2["PATID"],
                 jn2["KTX_DATE1"],
+                jn2["KTX_SITE"],
                 jn2["DM_DATE1"],
                 jn2["DAYS_TO_NODAT"],
                 jn2["NODAT_IND"],
@@ -179,7 +186,8 @@ with Session.builder.configs(connect_params).create() as session:
         jn3.join(p, jn3["PATID"] == p["PATID"], "inner")
             .select(
                 jn3["PATID"].alias("PATID"),
-                jn3["KTX_DATE1"],
+                jn3["KTX_DATE1"].alias("INDEX_DATE"),
+                jn3["KTX_SITE"],
                 jn3["DM_DATE1"],
                 jn3["DAYS_TO_NODAT"],
                 jn3["NODAT_IND"],
@@ -196,7 +204,9 @@ with Session.builder.configs(connect_params).create() as session:
                 p["HISPANIC"],
                 datediff("year",p["BIRTH_DATE"],jn3["KTX_DATE1"]).alias("AGE_AT_KTX"),
                 p["DEATH_IND"],
-                datediff("year",jn3["KTX_DATE1"],p["CENSOR_DATE"]).alias("DAYS_TO_CENSOR")
+                p["CENSOR_DATE"],
+                datediff("day",jn3["KTX_DATE1"],p["CENSOR_DATE"]).alias("DAYS_TO_CENSOR"),
+                p["INDEX_SRC"].alias("SRC_SITE")
             )
     )
     final.write.mode("overwrite").save_as_table("KTX_TBL1")

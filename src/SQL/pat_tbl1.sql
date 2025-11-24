@@ -49,7 +49,7 @@ for(i=0; i<SITES.length; i++){
                 FROM GROUSE_DEID_DB.`+ site_cdm +`.V_DEID_DEMOGRAPHIC d 
                 JOIN GROUSE_DEID_DB.`+ site_cdm +`.V_DEID_ENCOUNTER e ON d.PATID = e.PATID
                 LEFT JOIN GROUSE_DEID_DB.`+ site_cdm +`.V_DEID_DEATH dth on d.PATID = dth.PATID
-                WHERE d.patid is not null
+                WHERE d.patid is not null and coalesce(e.discharge_date::date,e.admit_date::date,current_date) <= current_date
                 )
                 SELECT DISTINCT
                      cte.patid
@@ -106,17 +106,14 @@ create or replace table PAT_DEMO_LONG (
 );
 call get_pat_demo(
     array_construct(
-     'CMS'
-    ,'ALLINA'
+     'ALLINA'
     ,'IHC'
     ,'KUMC'
-    ,'MCRI'
     ,'MCW'
     ,'MU'
     ,'UIOWA'
     ,'UNMC'
     ,'UTHOUSTON'
-    ,'UTHSCSA'
     ,'UTSW'
     ,'UU'
     ,'WASHU'
@@ -129,25 +126,13 @@ select * from PAT_DEMO_LONG limit 5;
 select index_src, count(distinct patid)
 from PAT_DEMO_LONG
 group by index_src;
-                                       
+
 
 create or replace table PAT_TABLE1 as 
 with cte_ord as (
     select a.*,
            row_number() over (partition by a.patid order by a.index_date,a.cms_ind desc) as rn
     from PAT_DEMO_LONG a
-), cte_cmsdemo as(
-    select a.* exclude(birth_date, sex, race, hispanic, censor_date, death_ind),
-           coalesce(a.birth_date,d.birth_date) as birth_date, 
-           coalesce(a.sex,d.sex) as sex,
-           coalesce(a.race,d.race) as race,
-           coalesce(a.hispanic,d.hispanic) as hispanic,
-           max(a.censor_date) over (partition by a.patid) as censor_date,
-           max(a.death_ind) over (partition by a.patid) as death_ind
-    from cte_ord a
-    left join GROUSE_DEID_DB.CMS_PCORNET_CDM.V_DEID_DEMOGRAPHIC d
-    on a.patid = d.patid
-    where a.rn = 1
 ), cte_partab as (
     select patid,
            min(enr_start_date) as partab_start_date,
@@ -209,11 +194,11 @@ select a.patid
       ,ehr.ehr_start_date
       ,ehr.ehr_end_date
       ,coalesce(ma.PARTC_IND,0) as PARTC_IND
-from cte_cmsdemo a
-left join cte_partab ab on a.patid = ab.patid
-left join cte_partd d on a.patid = d.patid
+from cte_ord a
 left join cte_ehr ehr on a.patid = ehr.patid
+left join cte_partab ab on a.patid = ab.patid
 left join cte_partc ma on a.patid = ma.patid
+left join cte_partd d on a.patid = d.patid
 where a.rn = 1
 ;
 
