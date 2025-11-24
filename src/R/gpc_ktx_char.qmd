@@ -1,0 +1,140 @@
+---
+title: "GPC KTx Characterization"
+author: "Xing Song"
+format: 
+  html:
+    self-contained: true
+editor: visual
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+#| label: load-pkg
+
+# rm(list=ls())
+pacman::p_load(
+  tidyverse,
+  magrittr,
+  stringr,
+  broom,
+  cowplot,
+  ggrepel,
+  kableExtra,
+  gtsummary,
+  devtools,
+  tableone,
+  pROC,
+  MASS,
+  nnet,
+  ordinal
+)
+source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
+source_url("https://raw.githubusercontent.com/sxinger/utils/master/plot_util.R")
+
+path_to_data<-"C:/repos/r01_cistem2_rutgers/data"
+path_to_res<-"C:/repos/r01_cistem2_rutgers/res"
+```
+
+
+```{r}
+#| label: load_data
+aset<-readRDS(file.path(path_to_data,"ktx_ptbl_preproc.rda"))
+```
+
+
+## Descriptive Statistics
+
+```{r}
+#| label: classify-var
+
+vars_bin<-c(
+    "NODAT_IND",
+    "MI_IND",
+    "CKD_EGFR",
+    "AR_IND",
+    "DEATH_1YR",
+    "DEATH_3YR",
+    "DEATH_5YR"
+)
+
+vars_nom<-c(
+  "SEX",
+  "RACE",
+  "HISPANIC"
+)
+
+vars_ord<-c(
+)
+
+vars_cont<-c(
+  "AGE_AT_KTX",
+  "DAYS_TO_NODAT",
+  "DAYS_TO_MI",
+  "DAYS_TO_RBX"
+)
+
+vars_cnt<-c(
+  "MED_CNT_IN",
+  "CCI_TOTAL"
+)
+
+vars<-c(
+  vars_bin,
+  vars_nom,
+  vars_ord,
+  vars_cont,
+  vars_cnt
+)
+
+facvars<-c(
+  vars_bin,
+  vars_nom,
+  vars_ord
+)
+```
+
+
+```{r}
+tbl1<-CreateTableOne(
+  data = aset,
+  vars = vars,
+  factorVars = facvars
+)
+kable(
+  print(tbl1, printToggle = FALSE), 
+  caption = "Table 1: Overall Cohort Characteristics"
+)
+
+tbl2<-CreateTableOne(
+  data = aset %>% filter(NODAT_IND==1),
+  vars = vars,
+  factorVars = facvars
+)
+kable(
+  print(tbl2, printToggle = FALSE), 
+  caption = "Table 2: Sub-Cohort Characteristics (NODAT)"
+)
+
+tbl1<-CreateTableOne(
+  data = aset  %>% filter(MI_IND==1),
+  vars = vars,
+  factorVars = facvars
+)
+kable(
+  print(tbl1, printToggle = FALSE), 
+  caption = "Table 3: Sub-Cohort Characteristics (MI)"
+)
+
+tbl1<-CreateTableOne(
+  data = aset  %>% filter(AR_IND==1),
+  vars = vars,
+  factorVars = facvars
+)
+kable(
+  print(tbl1, printToggle = FALSE), 
+  caption = "Table 4: Sub-Cohort Characteristics (AR)"
+)
+```
