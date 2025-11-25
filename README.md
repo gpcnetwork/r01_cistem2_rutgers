@@ -27,9 +27,34 @@ Data management plan and security compliance requiremenst can be found below:
 - [NIH Data Management and Sharing Plan](/doc/CISTEM2_NIH_Data-Managemen-Sharing-Plan.pdf)
 - [SRTR Data Dictionary](doc/CISTEM2_SRTR_DataDictionary.html)
 
+-----
+
 # Study Team 
 ![fig1](res/study-team.png)
 
+**Rutgers University**
+- [Vikas dharnidharka, MD, MPH](mailto:) - M-PI
+
+**University Hospital Cleveland**
+- [David Axelrod, MD, MBA](mailto:) - M-PI
+
+**University of Missouri**
+- [Xing Song, PhD](mailto:) - Data Coordinating Center Lead, Site PI, GPC
+
+**Houston Methodist**
+- [Amy Waterman, PhD](mailto:) - Patient Engagement Lead, Site PI
+
+**St. Louis University**
+- [Mark Schnizier, PhD](mailto:) - Data Integration and Analytic Core
+- [Krista Lentine, MD, PhD](mailto:) - Data Integration and Analytic Core
+
+**University of Florida**
+- [Mei Liu, PhD](mailto:) - Data Integration and Analytic Core, Site PI, OneFlorida+
+
+**Datavant**
+- [Claire Manneh](mailto:) - PPRL Linkage broker
+
+------
 
 # Data Linkage and Integration Workflow
 ![fig2](/res/data-linkage.png)
